@@ -94,13 +94,27 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.origins + ["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+def _cors_middleware_kwargs() -> dict:
+    """Never pair allow_origins=['*'] with allow_credentials=True."""
+    origins = settings.origins
+    if not origins:
+        origins = ["http://localhost:5180", "http://127.0.0.1:5180"]
+    if origins == ["*"]:
+        return {
+            "allow_origins": ["*"],
+            "allow_credentials": False,
+            "allow_methods": ["*"],
+            "allow_headers": ["*"],
+        }
+    return {
+        "allow_origins": origins,
+        "allow_credentials": True,
+        "allow_methods": ["*"],
+        "allow_headers": ["*"],
+    }
+
+
+app.add_middleware(CORSMiddleware, **_cors_middleware_kwargs())
 
 app.include_router(challenges.router)
 app.include_router(projects.router)

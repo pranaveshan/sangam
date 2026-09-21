@@ -15,7 +15,7 @@ COPY backend/ .
 COPY --from=frontend /fe/dist ./static
 ENV DATABASE_URL=sqlite:///./sangam.db
 ENV UPLOAD_DIR=./uploads
-ENV CORS_ORIGINS=*
+ENV CORS_ORIGINS=http://localhost:8100,http://127.0.0.1:8100
 ENV DATA_MODE=prototype
 EXPOSE 8100
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8100"]

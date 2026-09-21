@@ -1,289 +1,160 @@
-# SANGAM Platform - Quick Start Guide
+# SANGAM — Developer Reference
 
-## First-Time Setup
+Companion to the root [README](../README.md). README = quick start. This file = technical detail.
 
-### 1. Install PostgreSQL
+## Architecture
 
-**Windows:**
-- Download from https://www.postgresql.org/download/windows/
-- During installation, note your password
-- Install PostGIS extension via Stack Builder
+| Layer | Tech | Default URL |
+|-------|------|-------------|
+| Frontend | React 18, Vite, Tailwind, HashRouter | http://localhost:5180 |
+| Backend | FastAPI, SQLAlchemy, Pydantic | http://localhost:8100 |
+| Database | SQLite (`backend/sangam.db`) | file on disk |
+| AI | Local `LLMService` / embeddings / speech abstractions | no API key required |
 
-**Linux (Ubuntu/Debian):**
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib postgis
-```
+Optional PostgreSQL via `DATABASE_URL`. The live ORM does **not** require PostGIS. `database/schema.sql` is a legacy PostGIS sketch and is not applied by the app.
 
-**Mac:**
-```bash
-brew install postgresql postgis
-```
+## Environment
 
-### 2. Create Database
+| File | Purpose |
+|------|---------|
+| `backend/.env.example` | Template — copied to `backend/.env` by setup |
+| `frontend/.env.example` | `VITE_API_URL` for Vite |
 
-```bash
-# Connect to PostgreSQL
-psql -U postgres
+Variables actually read by the backend (`app/config.py`):
 
-# In psql:
-CREATE DATABASE sangam_db;
-CREATE USER sangam_user WITH PASSWORD 'sangam_pass';
-GRANT ALL PRIVILEGES ON DATABASE sangam_db TO sangam_user;
-\q
-```
+- `DATABASE_URL`
+- `UPLOAD_DIR`
+- `CORS_ORIGINS` (comma-separated; never use `*` with credentialed mode)
+- `DATA_MODE`
+- Optional: `OPENAI_API_KEY`, `OPENAI_MODEL` (RAG generation only)
 
-### 3. Backend Setup
+## Backend
+
+Package root: `backend/` with import path `app.*`.
 
 ```bash
-cd sangam/backend
-
-# Create virtual environment
-python -m venv venv
-
-# Activate (Windows)
-venv\Scripts\activate
-
-# Activate (Linux/Mac)
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Copy and edit .env
-copy .env.example .env
-# Edit .env with your database credentials
-
-# Initialize database and load demo data
-python scripts/init_db.py
+cd backend
+.venv/Scripts/activate   # Windows
+# source .venv/bin/activate  # Unix
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8100
 ```
 
-Expected output:
-```
-🔧 Initializing database...
-✓ PostGIS extension enabled
-✓ Database tables created
-📚 Loading demo universities...
-✓ Loaded 4 universities with expertise
-🏭 Loading demo industry partners...
-✓ Loaded 4 industry partners
-🌍 Loading demo challenges...
-✓ Loaded 5 demo challenges
-✅ Database initialized successfully!
-```
+Key modules:
 
-### 4. Frontend Setup
+- `app/main.py` — FastAPI entry, lifespan seed, CORS, static SPA
+- `app/models.py` — SQLAlchemy models
+- `app/seed.py` — demo users, universities, AquaGuard journey
+- `app/ai/` — engine, llm_service, embedding_service, speech_service, rag
+- `app/routers/` — challenges, problems, projects, auth, admin, rag
+
+### Database initialization
+
+Canonical methods (same seed):
+
+1. **API lifespan** — `create_all` + `seed_database` on startup  
+2. **Script** — `backend/scripts/init_db.py`
 
 ```bash
-cd sangam/frontend
+# from repository root
+backend/.venv/Scripts/python.exe backend/scripts/init_db.py
+```
 
-# Install dependencies
+There is no Alembic migration pipeline in this prototype. Schema is created from models.
+
+## Frontend
+
+```bash
+cd frontend
 npm install
-
-# Copy .env (optional, uses defaults)
-copy .env.example .env
+npm run dev      # port 5180, proxies /api → :8100
+npm run build    # output: frontend/dist
 ```
 
-## Running the Application
+Vite defaults (`vite.config.js`):
 
-### Option 1: Use Start Script
+- `server.port = 5180`
+- proxy `/api` and `/uploads` → `http://localhost:8100`
+- `base: './'` for static hosting
 
-**Windows:**
+## Ports (authoritative)
+
+| Service | Port |
+|---------|------|
+| Frontend (Vite) | **5180** |
+| Backend (uvicorn) | **8100** |
+
+Do not use 5173 / 8000 unless you intentionally change config and CORS together.
+
+## CORS
+
+`CORS_ORIGINS` lists allowed browser origins. Credentials are enabled only when origins are explicit (not `*`).
+
+## Scripts
+
+| Script | Role |
+|--------|------|
+| `setup.bat` / `setup.sh` | Create `.venv`, pip install, npm install, `.env`, init_db |
+| `start.bat` / `start.sh` | Start API + Vite (runs setup if missing) |
+| `deploy-local.bat` | Build frontend → `backend/static` → serve on :8100 |
+
+## AI services
+
+Honest local defaults:
+
+- Problem intelligence — keyword / heuristic structured output
+- Similarity — hashing / bag-of-words embeddings
+- Speech — client Web Speech transcript accepted server-side
+- RAG — TF-IDF; optional OpenAI for answer wording
+
+## Testing
+
 ```bash
-cd sangam
-start.bat
+# Health
+curl http://localhost:8100/api/health
+
+# Analyze
+curl -X POST http://localhost:8100/api/problems/analyze ^
+  -H "Content-Type: application/json" ^
+  -d "{\"text\":\"Flooding damages farmland after rain\",\"location_text\":\"Village\",\"people_affected_text\":\"40\"}"
 ```
 
-**Linux/Mac:**
-```bash
-cd sangam
-chmod +x start.sh
-./start.sh
+Manual UI checklist: `docs/TESTING.md`.
+
+## Build & deployment
+
+**Local production (API + SPA):**
+
+```bat
+deploy-local.bat
 ```
 
-### Option 2: Manual Start
+Open http://localhost:8100
 
-**Terminal 1 - Backend:**
-```bash
-cd sangam/backend
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux/Mac
-python -m uvicorn app.main:app --reload
-```
+**Docker:** multi-stage `Dockerfile` builds frontend into `static/` and runs uvicorn on 8100.
 
-**Terminal 2 - Frontend:**
-```bash
-cd sangam/frontend
-npm run dev
-```
+**Render:** `render.yaml` (SQLite on free tier — ephemeral disk).
 
-## Access the Platform
-
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8000
-- **API Documentation**: http://localhost:8000/api/docs
-
-## Demo Walkthrough
-
-### 1. Home Page
-- View platform overview
-- See role selector in header
-- Review features and workflow
-
-### 2. Submit Challenge (Citizen Role)
-1. Select "Citizen" from role dropdown
-2. Click "Report a Challenge"
-3. Fill form with challenge details
-4. Submit and view AI analysis
-
-### 3. AI Analysis
-The AI analysis shows:
-- **Domain Classification**: e.g., "Water & Environment"
-- **Priority Score**: Transparent calculation (0-10)
-- **Similar Challenges**: Duplicate detection results
-- **University Matches**: Top 3 recommended universities
-- **Reasoning**: Why each decision was made
-
-### 4. Government Dashboard
-1. Select "Government" from role dropdown
-2. Click "Dashboard"
-3. View statistics and pending challenges
-4. Click "Validate" on a pending challenge
-
-### 5. University Dashboard
-1. Select "University" from role dropdown
-2. View matched challenges (challenges matched to your expertise)
-3. Accept a challenge to create a project
-
-### 6. Student/Team View
-1. Select "Student/Team" from role dropdown
-2. View assigned project
-3. Form team and add members
-4. Update milestone progress
-
-### 7. Industry Dashboard
-1. Select "Industry" from role dropdown
-2. Browse available projects
-3. Offer collaboration (mentorship, resources, funding)
-
-### 8. Impact Tracking
-1. Switch to "Government" role
-2. View Impact Dashboard showing:
-   - People reached
-   - Communities impacted
-   - Projects completed
-   - Geographic distribution
-
-## Testing AI Features
-
-### Test Classification
-Submit challenges with different keywords:
-- **Water**: "flooding", "drinking water", "contamination"
-- **Healthcare**: "hospital", "medical", "emergency"
-- **Education**: "school", "student", "teacher"
-- **Agriculture**: "farming", "crop", "irrigation"
-
-The AI will classify based on keywords and show reasoning.
-
-### Test Priority Scoring
-Try different values:
-- **High Priority**: 5000+ people affected, urgency: critical
-- **Medium Priority**: 500-5000 people affected, urgency: high
-- **Low Priority**: <500 people affected, urgency: low
-
-The score breakdown shows exact calculation.
-
-### Test Duplicate Detection
-Submit similar challenges to see similarity scores:
-1. Submit: "Flooding damaged water pipeline"
-2. Submit: "Flood destroyed drinking water infrastructure"
-3. AI shows similarity percentage and recommends consolidation
+`website/` is **generated** by deploy-local and gitignored. Root `index.html` is only a helper page for humans opening the repo folder — not the React app.
 
 ## Troubleshooting
 
-### Database Connection Failed
-```bash
-# Check PostgreSQL is running
-# Windows: Check Services
-# Linux: sudo systemctl status postgresql
-# Mac: brew services list
+| Symptom | Cause / fix |
+|---------|-------------|
+| ImportError `app.database.connection` | Obsolete docs/scripts — use current `init_db.py` |
+| PostGIS errors | You are following obsolete DEVELOPMENT instructions; use SQLite |
+| Blank page on static host | Ensure `base: './'` build and HashRouter routes (`/#/...`) |
+| CORS errors | Align `CORS_ORIGINS` with the exact frontend origin including port |
+| Setup fails on Python | Use `python -m venv`; ensure Python 3.10+ |
 
-# Verify connection
-psql -U sangam_user -d sangam_db
+## Project layout
+
+```text
+sangam/
+  backend/app/
+  backend/scripts/init_db.py
+  frontend/src/
+  docs/
+  setup.bat  setup.sh
+  start.bat  start.sh
+  deploy-local.bat
 ```
-
-### Port Already in Use
-
-**Backend (8000):**
-```bash
-# Change port
-python -m uvicorn app.main:app --reload --port 8001
-```
-
-**Frontend (5173):**
-Edit `vite.config.js`:
-```js
-server: { port: 3000 }
-```
-
-### AI Model Not Loading
-```bash
-# Test sentence transformers
-python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
-
-# If fails, AI will use TF-IDF fallback (still works)
-```
-
-### Frontend Not Connecting to Backend
-- Check backend is running on port 8000
-- Verify VITE_API_URL in frontend/.env
-- Check browser console for CORS errors
-
-## Common Commands
-
-```bash
-# Backend
-cd backend
-venv\Scripts\activate
-python -m uvicorn app.main:app --reload
-
-# Frontend
-cd frontend
-npm run dev
-
-# Database reset
-cd backend
-python scripts/init_db.py
-
-# Run tests
-cd backend
-pytest tests/
-
-# Build frontend for production
-cd frontend
-npm run build
-```
-
-## Next Steps
-
-1. Explore all role-based dashboards
-2. Submit test challenges
-3. Validate challenges as government
-4. Create projects as university
-5. Track impact metrics
-6. Review API documentation at /api/docs
-
-## For Judges
-
-The complete demo scenario flows through all roles in 3-5 minutes:
-1. Citizen reports challenge
-2. AI analyzes (live, not mocked)
-3. Government validates
-4. University accepts
-5. Team forms
-6. Industry collaborates
-7. Milestones tracked
-8. Community feedback
-9. Impact measured
-
-All AI decisions show transparent reasoning. All demo data is clearly labeled.

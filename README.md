@@ -1,161 +1,182 @@
 # SANGAM — Societal Innovation Platform
-# Smart India Hackathon 2026 · Problem Statement SIH26043
+**Smart India Hackathon 2026 · SIH26043**
 
-Crowdsource societal challenges and facilitate collaborative problem-solving through universities and industry partnerships.
+Crowdsource societal challenges and connect them with universities and industry partners who can collaborate on solutions.
 
-## What this prototype includes
+## Features
 
-| Layer | Status |
-|--------|--------|
-| Challenge submission + uploads | **Real functionality** |
-| Local AI (classify, priority factors, duplicate similarity, university matching) | **Real functionality** (local algorithms — not an external LLM) |
-| **RAG** (retrieve playbooks + live challenges/projects, grounded answers) | **Real functionality** (local TF-IDF; optional OpenAI if `OPENAI_API_KEY`) |
-| Role workspaces (Citizen, Gov, University, Student, Industry) | **Real functionality** |
-| Project lifecycle, milestones, collaborations, feedback | **Real functionality** |
-| Charts, district map points, impact stats | **Real functionality** against DB |
-| Universities, CSR partners, AquaGuard journey | **Demo Data** (clearly labeled) |
-| Payments / production auth / live gov stats | **Future integration** |
+| Capability | Status |
+|------------|--------|
+| Voice / photo / text citizen reporting | Real |
+| Multilingual UI (en, te, hi, …) | Real |
+| Local problem intelligence + semantic similarity | Real (local heuristics; optional OpenAI for RAG text) |
+| University / industry matching (demo institutions labeled) | Real |
+| Project lifecycle, plan suggestions, community feedback | Real |
+| Role portals (citizen, admin, university, student, industry) | Real |
+| Payments / production SSO | Future |
 
-## Stack
+## Architecture
 
-- **Frontend:** React, Vite, Tailwind CSS, Recharts, Leaflet
-- **Backend:** Python, FastAPI, SQLAlchemy
-- **Database:** SQLite by default (zero-setup demo). Optional PostgreSQL via `DATABASE_URL`.
+```text
+frontend/   React + Vite + Tailwind   →  http://localhost:5180
+backend/    FastAPI + SQLAlchemy      →  http://localhost:8100
+database    SQLite by default (optional PostgreSQL via DATABASE_URL)
+```
 
-PostGIS is noted as a **future integration** for advanced geographic queries; the prototype stores lat/lng and renders OpenStreetMap markers.
+On startup the API creates tables and seeds demo data. PostGIS is **not** required.
 
-## Quick start (Windows)
+## Prerequisites
 
-### 1. Backend
+- **Python** 3.10+
+- **Node.js** 18+ (includes npm)
+- Git
+
+## Quick start
+
+```bash
+git clone https://github.com/pranaveshan/sangam.git
+cd sangam
+```
+
+### First time
+
+**Windows**
 
 ```bat
-cd sangam\backend
+setup.bat
+start.bat
+```
+
+**Linux / macOS**
+
+```bash
+chmod +x setup.sh start.sh
+./setup.sh
+./start.sh
+```
+
+### Every later time
+
+```bat
+start.bat
+```
+
+```bash
+./start.sh
+```
+
+Then open:
+
+| Service | URL |
+|---------|-----|
+| App | http://localhost:5180 |
+| Login hub | http://localhost:5180/#/login |
+| API docs | http://localhost:8100/docs |
+| Health | http://localhost:8100/api/health |
+
+`start` will call `setup` automatically if `.venv` or `node_modules` are missing.
+
+## Manual setup (optional)
+
+```bat
+cd backend
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 copy .env.example .env
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8100
-```
+cd ..
+backend\.venv\Scripts\python.exe backend\scripts\init_db.py
 
-API docs: http://localhost:8100/docs  
-Health: http://localhost:8100/api/health
-
-### 2. Frontend
-
-```bat
-cd sangam\frontend
+cd frontend
 npm install
+copy .env.example .env
 npm run dev
 ```
 
-App: http://localhost:5180
+In another terminal:
 
-### One-click helpers
-
-- `start.bat` (Windows) / `start.sh` (Unix) — starts API + Vite if present.
-
-## Separate portal logins
-
-Each stakeholder has its own sign-in page:
-
-| Portal | URL | Demo email | Password |
-|--------|-----|------------|----------|
-| Citizen | `/login/citizen` | citizen.demo@sangam.local | citizen123 |
-| Admin / Government | `/login/admin` | gov.demo@sangam.local | admin123 |
-| University | `/login/university` | uni.demo@sangam.local | uni123 |
-| Student / SSC | `/login/ssc` | student.demo@sangam.local | student123 |
-| Industry / CSR | `/login/csr` | industry.demo@sangam.local | csr123 |
-
-Hub: `/login`. Workspaces are role-locked after login. **Demo auth only** — not production security.
-
-## RAG (Retrieval-Augmented Generation)
-
-Open **RAG** in the app header (`/rag`) or see suggestions after challenge submit.
-
-- Retrieves from demo playbooks + live challenges/projects/universities
-- Answers cite sources with relevance scores
-- Default: local TF-IDF + grounded synthesis (works offline)
-- Optional: set `OPENAI_API_KEY` for LLM generation over retrieved context
-- Details: `docs/RAG.md`
-
-## Demo mode (3–5 minutes)
-
-1. Open **Demo Guide** in the app header.
-2. Or switch roles in the header:
-   - **Citizen** — submit flood challenge (prefilled) → see AI panel
-   - **Government** — validate queue, charts, map, reset demo
-   - **University** — accept challenge / open AquaGuard
-   - **Student** — team AquaGuard, milestones, status
-   - **Industry** — offer mentorship (no real money)
-   - **Impact** — measurable outcomes
-3. Seeded journey already includes AquaGuard at **Pilot** with community feedback.
-
-Reset: Government dashboard → **Reset Demo Data**.
-
-## Data provenance labels
-
-- **Demo Data** — seeded prototype institutions, partners, sample challenges/projects
-- **User-generated** — created through the UI in this session
-- **Prototype AI** — keyword NLP + bag-of-words cosine similarity + transparent weighted scoring
-- Never presented as official government statistics or real university partnerships
-
-## Environment
-
-### Backend `.env`
-
+```bat
+cd backend
+.venv\Scripts\activate
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8100
 ```
+
+## Environment configuration
+
+Copy examples (done by `setup`):
+
+- `backend/.env.example` → `backend/.env`
+- `frontend/.env.example` → `frontend/.env`
+
+Important variables:
+
+```text
 DATABASE_URL=sqlite:///./sangam.db
-UPLOAD_DIR=./uploads
 CORS_ORIGINS=http://localhost:5180,http://127.0.0.1:5180
-DATA_MODE=prototype
-```
-
-Optional PostgreSQL:
-
-```
-DATABASE_URL=postgresql://sangam:sangam@localhost:5432/sangam
-```
-
-### Frontend `.env`
-
-```
+UPLOAD_DIR=./uploads
 VITE_API_URL=http://localhost:8100
 ```
 
-## Testing
+Never commit real secrets. Optional `OPENAI_API_KEY` enables LLM text over RAG retrieval only.
+
+## Database
+
+- **Default:** SQLite file `backend/sangam.db` (created automatically).
+- **Init / seed:** `backend/scripts/init_db.py` or API lifespan on first start.
+- **Optional:** set `DATABASE_URL` to PostgreSQL. PostGIS is not used by the running app.
+- **Reset demo data:** Admin portal → Reset Demo Data (or `POST /api/demo/reset`).
+
+## Production build (local)
 
 ```bat
-cd sangam\backend
-.venv\Scripts\activate
-python -c "from app.ai.engine import build_full_analysis; print(build_full_analysis('Flood damaged drinking water','pipelines ruptured','Water','Barmer',5000,'high','high','district',[],[])['domain'])"
+deploy-local.bat
 ```
 
-Manual API checks:
+This installs deps if needed, builds the frontend, copies assets into `backend/static/`, and serves API + UI at **http://localhost:8100**.
 
-```bat
-curl http://localhost:8100/api/health
-curl http://localhost:8100/api/admin/stats
-curl http://localhost:8100/api/projects
-```
+`website/` is a generated static package (gitignored) for optional Netlify-style hosts.
 
-## Project layout
+Docker: see `Dockerfile` and `render.yaml`.
 
-```
+## Demo portal logins
+
+| Portal | Path | Email | Password |
+|--------|------|-------|----------|
+| Citizen | `/#/login/citizen` | citizen.demo@sangam.local | citizen123 |
+| Admin | `/#/login/admin` | gov.demo@sangam.local | admin123 |
+| University | `/#/login/university` | uni.demo@sangam.local | uni123 |
+| Student | `/#/login/ssc` | student.demo@sangam.local | student123 |
+| Industry | `/#/login/csr` | industry.demo@sangam.local | csr123 |
+
+Demo auth only — not production security. Institutions and AquaGuard journey are labeled **DEMO DATA**.
+
+## Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| `Python was not found` | Install Python 3.10+ and ensure it is on PATH |
+| `Node.js was not found` | Install Node.js 18+ |
+| Port 5180 / 8100 in use | Stop the other process, or change ports in `start.bat` / `vite.config.js` and update `CORS_ORIGINS` |
+| Frontend cannot reach API | Confirm backend is up; check `VITE_API_URL` and `CORS_ORIGINS` |
+| Broken `init_db` imports | Use current `backend/scripts/init_db.py` (this repo no longer uses `app.database.connection`) |
+
+## Project structure
+
+```text
 sangam/
-  backend/app/          FastAPI app, models, AI engine, routers, seed
-  frontend/src/         React role UIs, charts, map, demo guide
-  README.md
+  setup.bat / setup.sh      First-time install
+  start.bat / start.sh      Dev servers (5180 + 8100)
+  deploy-local.bat          Production-style local serve on :8100
+  backend/                  FastAPI app, AI services, seed
+  frontend/                 React UI
+  docs/                     Detailed developer notes
+  index.html                Helper page (not the Vite app)
 ```
 
-## AI methods (honest disclosure)
+## More detail
 
-1. **Classification** — keyword scores across civic domains  
-2. **Priority** — weighted factors shown in UI (people, urgency, severity, spread, evidence)  
-3. **Duplicates** — bag-of-words cosine similarity (local; not a neural embedding API)  
-4. **University matching** — structured expertise overlap with explanations  
-
-To plug a real embedding/LLM API later, replace functions in `backend/app/ai/engine.py` and update the method labels returned to the UI.
+See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md), [`docs/TESTING.md`](docs/TESTING.md), [`docs/RAG.md`](docs/RAG.md).
 
 ## License / SIH note
 
-Built as a hackathon prototype. Demo organizations are fictional. Do not treat metrics as official statistics.
+Hackathon prototype. Demo organizations are fictional. Do not treat metrics as official statistics.
