@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/.venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+
+# Build outputs
+frontend/dist/
+backend/static/
+website/
+*.local
+
+# Environment / secrets
+.env
+backend/.env
+frontend/.env
+*.pem
+
+# Runtime data
+backend/sangam.db
+backend/sangam.db-*
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.db
+*.sqlite3
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+.cache/
+
+# Coverage / test
+.coverage
+htmlcov/
+.pytest_cache/

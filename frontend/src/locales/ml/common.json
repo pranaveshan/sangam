@@ -1,0 +1,132 @@
+﻿{
+  "brand": "SANGAM",
+  "tagline": "Got a problem in your community? Don't just report it. Help solve it.",
+  "heroSupport": "Speak in your language. Show us what happened. SANGAM connects community problems with people who can work on them.",
+  "nav": {
+    "home": "Home",
+    "explore": "Explore Problems",
+    "howItWorks": "How It Works",
+    "projects": "Projects",
+    "about": "About",
+    "workspace": "Workspace",
+    "report": "Report",
+    "impact": "Impact",
+    "demo": "Demo Guide",
+    "signIn": "Sign in",
+    "logout": "Logout"
+  },
+  "cta": {
+    "speak": "Tell us what happened",
+    "show": "Show us the problem",
+    "explore": "Explore problems",
+    "type": "Describe it yourself"
+  },
+  "home": {
+    "problemsAroundUs": "Problems Around Us",
+    "problemsAroundUsHint": "Real community challenges seeking collaborators. Demo records are clearly marked.",
+    "journeyTitle": "From problem to impact",
+    "journeyHint": "SANGAM turns everyday community problems into collaborative opportunities.",
+    "joinTitle": "Want to help solve this?",
+    "roles": {
+      "student": "Student",
+      "researcher": "Researcher",
+      "industry": "Industry",
+      "volunteer": "Volunteer"
+    },
+    "lookingFor": "Looking for",
+    "reports": "community reports",
+    "demoData": "DEMO DATA",
+    "status": "Status"
+  },
+  "how": {
+    "title": "How It Works",
+    "subtitle": "Six simple steps from your story to community impact.",
+    "steps": [
+      { "title": "Tell us", "body": "Speak, type, or show the problem in your language." },
+      { "title": "We understand", "body": "SANGAM structures your report and asks only useful follow-ups." },
+      { "title": "Find people", "body": "Universities and industry discover relevant challenges." },
+      { "title": "Build together", "body": "Teams research, prototype, and test solutions." },
+      { "title": "Improve", "body": "Community feedback helps refine what was built." },
+      { "title": "Create impact", "body": "Track the journey from problem to outcome." }
+    ]
+  },
+  "about": {
+    "title": "About SANGAM",
+    "body": "SANGAM is a community innovation network for SIH26043. It helps citizens report societal problems and connects them with universities and industry partners who can collaborate on solutions. AI makes SANGAM easier to use — it is not the product itself.",
+    "privacy": "We minimize personal data. Public summaries never expose private citizen details.",
+    "honesty": "Demo organizations and journeys are labeled DEMO DATA. No fake partnerships or statistics."
+  },
+  "explore": {
+    "title": "Explore Problems",
+    "subtitle": "Browse community challenges and find ways to contribute.",
+    "search": "Search problems…",
+    "allCategories": "All categories",
+    "empty": "No problems match your filters yet.",
+    "join": "Want to help solve this?",
+    "viewDetails": "View details",
+    "filterCategory": "Category",
+    "filterStatus": "Status"
+  },
+  "report": {
+    "title": "Tell us what happened",
+    "subtitle": "Speak, show a photo, or type — use any combination.",
+    "speak": "Speak",
+    "show": "Show",
+    "type": "Type",
+    "listening": "Listening… tap to stop",
+    "tapToSpeak": "Tap the microphone and speak",
+    "speechUnsupported": "Voice input is not available in this browser. You can type instead.",
+    "transcript": "What we heard",
+    "photo": "Photo or video",
+    "photoHint": "Upload evidence of the problem",
+    "location": "Where is this happening?",
+    "locationHint": "Village, landmark, or area — GPS helps but is optional.",
+    "useGps": "Use my location",
+    "peopleAffected": "How many people or families are affected?",
+    "continue": "Continue",
+    "understanding": "Understanding your report…",
+    "understood": "Here's what we understood",
+    "listen": "Listen",
+    "correct": "Correct",
+    "confirm": "Confirm and submit",
+    "problem": "Problem",
+    "impact": "Impact",
+    "category": "Category",
+    "expertise": "Expertise needed",
+    "missing": "Still needed",
+    "assisted": "I am helping someone else report",
+    "consent": "The citizen consents to submit this report",
+    "reportedByCitizen": "Reported by citizen",
+    "submittedWithAssistance": "Submitted with assistance",
+    "offlineSaved": "Saved on this device. We'll send it when you're connected.",
+    "pendingSync": "Pending upload",
+    "aiUnavailable": "Analysis is temporarily unavailable. Your report has been saved and can be processed later.",
+    "success": "Report submitted",
+    "related": "Related reports",
+    "collaborators": "Recommended collaborators",
+    "whyMatch": "Why this team?",
+    "followUpLocation": "Where is this happening?",
+    "followUpPeople": "How many people or families are affected?",
+    "skip": "Skip",
+    "back": "Back",
+    "descriptionPlaceholder": "Describe the problem in your own words…"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Active collaborations turning problems into solutions.",
+    "empty": "No projects yet.",
+    "aiSuggestion": "AI SUGGESTION",
+    "generatePlan": "Suggest a project plan",
+    "approvePlan": "Approve as official plan"
+  },
+  "offline": {
+    "banner": "You're offline. Reports will stay on this device until you're connected."
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong. Please try again.",
+    "demoData": "DEMO DATA",
+    "retry": "Retry"
+  }
+}
+

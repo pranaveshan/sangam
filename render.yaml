@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sangam
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./sangam.db
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: DATA_MODE
+        value: prototype

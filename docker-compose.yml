@@ -1,0 +1,18 @@
+version: "3.9"
+# Optional PostgreSQL for production-like demos.
+# Default SANGAM setup uses SQLite and does not require Docker.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: sangam
+      POSTGRES_PASSWORD: sangam
+      POSTGRES_DB: sangam
+    ports:
+      - "5432:5432"
+    volumes:
+      - sangam_pg:/var/lib/postgresql/data
+    # FUTURE INTEGRATION: use postgis/postgis image for spatial queries
+
+volumes:
+  sangam_pg:

@@ -1,0 +1,113 @@
+[
+  {
+    "id": "kb-water-flood-01",
+    "title": "Post-Flood Drinking Water Response Playbook",
+    "domain": "Water",
+    "tags": ["flood", "drinking water", "infrastructure", "WASH", "rural"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "metadata": {"audience": "district officers, universities"},
+    "content": "After flooding damages drinking-water infrastructure, prioritize: (1) rapid sanitary survey of handpumps, pipelines and storage tanks; (2) temporary safe-water advisories and tanker coordination; (3) turbidity/TDS spot checks at community water points; (4) consolidation of nearby similar reports to avoid fragmented response; (5) low-cost IoT monitoring kits for continuous turbidity alerts during recovery. University teams with Civil Engineering, Environmental Engineering and IoT skills are typically best matched. Community volunteers should be trained on colour-coded water-quality indicators before pilot expansion."
+  },
+  {
+    "id": "kb-water-quality-02",
+    "title": "Low-Cost Water Quality Monitoring Guidance",
+    "domain": "Water",
+    "tags": ["water quality", "IoT", "sensors", "prototype", "pilot"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "metadata": {"related_project": "AquaGuard"},
+    "content": "A practical student prototype for flood-affected villages can combine solar-powered turbidity and TDS sensors, SMS/offline alerts for panchayat volunteers, and a simple district dashboard. Field testing should cover at least 4–6 water points, include community validation sessions, and document false-positive rates. Equipment sponsorship from CSR water-tech partners can accelerate kits without requiring cash grants. Never claim medical potability without accredited lab confirmation; sensors are screening tools, not regulatory certificates."
+  },
+  {
+    "id": "kb-disaster-03",
+    "title": "Disaster Report Consolidation Protocol",
+    "domain": "Disaster Management",
+    "tags": ["flood", "deduplication", "validation", "governance"],
+    "source_type": "policy",
+    "provenance": "demo",
+    "content": "When multiple citizens report related flood impacts in the same district within a short window, administrators should treat them as candidate duplicates or linked events. Recommended actions: compare location and semantic similarity, merge people-affected counts carefully, keep an audit trail of consolidation, and then route a single validated challenge to universities. This reduces duplicate project formation and improves resource allocation for pilots."
+  },
+  {
+    "id": "kb-match-04",
+    "title": "University–Challenge Matching Heuristics",
+    "domain": "Public Administration",
+    "tags": ["matching", "university", "expertise", "incubation"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "content": "Match challenges using structured expertise overlap: required skills versus departments, research areas, faculty expertise, labs and incubation facilities. Prefer same-state institutions for field access. Always publish an explanation such as 'Matched because Civil Engineering + Water Resources expertise'. Mark prototype institutions clearly as demo data until real MoUs exist. Industry partners should join after team formation to provide mentorship or equipment, not before problem validation."
+  },
+  {
+    "id": "kb-health-05",
+    "title": "Rural Primary Health Challenge Patterns",
+    "domain": "Healthcare",
+    "tags": ["clinic", "ambulance", "cold chain", "public health"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "content": "Healthcare challenges often involve access gaps, cold-chain electricity reliability, and last-mile referral. Prioritize evidence (photos, duty rosters, outage logs). Useful university capabilities include public health informatics, biomedical engineering and mobile apps. Pilots should measure wait times, referral completion and community trust scores."
+  },
+  {
+    "id": "kb-agri-06",
+    "title": "Irrigation and Advisory Intervention Notes",
+    "domain": "Agriculture",
+    "tags": ["irrigation", "drip", "farmer", "advisory"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "content": "Agriculture challenges around drip irrigation adoption benefit from demonstration plots, peer farmer champions, and simple advisory SMS. Match Agricultural Engineering + IoT teams. Track adoption rate, water savings estimates, and livelihood outcomes. Avoid overselling yield guarantees in prototypes."
+  },
+  {
+    "id": "kb-energy-07",
+    "title": "Community Energy Reliability Checklist",
+    "domain": "Energy",
+    "tags": ["electricity", "solar", "outage", "cold chain"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "content": "For intermittent electricity affecting essential services, document outage frequency, critical loads and feasible renewable backups. University electrical engineering teams can prototype monitoring and micro-solar for clinics or schools. Industry can loan inverters or sensors. Impact metrics: hours of backup achieved, services restored, people affected."
+  },
+  {
+    "id": "kb-access-08",
+    "title": "Accessibility Retrofit Guidance",
+    "domain": "Accessibility",
+    "tags": ["ramp", "disability", "inclusive", "public building"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "content": "Accessibility challenges at public buildings should start with an access audit (entrance, toilets, signage, pathways). Civil/industrial design students can prototype ramps and wayfinding. Confirm with persons with disabilities during validation. Measure completion of access features and user satisfaction."
+  },
+  {
+    "id": "kb-urban-09",
+    "title": "Municipal Waste and Urban Service Response",
+    "domain": "Urban Development",
+    "tags": ["waste", "sewage", "municipal", "housing"],
+    "source_type": "case",
+    "provenance": "demo",
+    "content": "Urban waste dumping and sewage overflow reports should be geo-tagged and linked to ward officers. Student GIS dashboards help prioritize hotspots. Industry CSR can sponsor bins or sensors. Keep community feedback loops after pilot cleaning drives to measure recurrence."
+  },
+  {
+    "id": "kb-impact-10",
+    "title": "Community Feedback and Impact Measurement",
+    "domain": "Public Administration",
+    "tags": ["feedback", "impact", "pilot", "adoption"],
+    "source_type": "policy",
+    "provenance": "demo",
+    "content": "After pilot deployment, collect ratings, narrative feedback, problem-improvement notes and deployment confirmation photos. Aggregate average rating, confirmed deployments and people impacted. Government dashboards should label seeded statistics as Demo Data and user submissions as user-generated. Impact is only credible when linked to verified pilots and community responses."
+  },
+  {
+    "id": "kb-aquaguard-case-11",
+    "title": "AquaGuard Case Pattern (Demo)",
+    "domain": "Water",
+    "tags": ["AquaGuard", "flood", "IoT", "Barmer", "pilot"],
+    "source_type": "case",
+    "provenance": "demo",
+    "metadata": {"note": "Fictional SIH demonstration case"},
+    "content": "AquaGuard is a demonstration project that converts consolidated flood-related drinking-water reports in Barmer into a university-led IoT water-quality monitoring pilot. Team includes IoT, environmental engineering, civil field ops and data dashboard roles, with faculty mentors and CSR technical mentorship. Milestones follow requirement analysis through pilot deployment. Community feedback focuses on alert clarity and remaining infrastructure repair needs. This case is DEMO DATA for SIH judges and not a claim of a real deployed government programme."
+  },
+  {
+    "id": "kb-industry-12",
+    "title": "Industry/CSR Collaboration Modes",
+    "domain": "Public Administration",
+    "tags": ["CSR", "mentorship", "equipment", "sponsorship"],
+    "source_type": "playbook",
+    "provenance": "demo",
+    "content": "Industry partners may offer mentorship, technology support, equipment/resources, prototype sponsorship or collaboration requests. SANGAM records these offers without processing payments. Always display that no real financial transaction occurred in the prototype. Best timing is after university acceptance and team formation so support maps to a concrete workplan."
+  }
+]

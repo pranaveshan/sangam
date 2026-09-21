@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="SANGAM">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1f3a"/>
+      <stop offset="55%" stop-color="#123a5c"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="180" fill="#ffffff" fill-opacity="0.08"/>
+  <circle cx="160" cy="520" r="220" fill="#c2410c" fill-opacity="0.18"/>
+  <rect x="72" y="72" width="88" height="88" rx="20" fill="#ffffff" fill-opacity="0.95"/>
+  <text x="116" y="132" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="700" fill="#0b1f3a">S</text>
+  <text x="72" y="230" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#ffffff">SANGAM</text>
+  <text x="72" y="290" font-family="Arial, sans-serif" font-size="28" fill="#dbeafe">SIH26043 · Societal Innovation Platform</text>
+  <text x="72" y="360" font-family="Arial, sans-serif" font-size="24" fill="#e2e8f0">Citizens · Universities · Students · Industry · Government</text>
+  <rect x="72" y="420" width="220" height="54" rx="12" fill="#ffffff"/>
+  <text x="182" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0b1f3a">Open portals</text>
+</svg>
